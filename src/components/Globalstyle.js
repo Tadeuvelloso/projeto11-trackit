@@ -126,9 +126,8 @@ table {
     border-collapse: collapse;
   border-spacing: 0;
 }
-link{
-  text-decoration: none;
-}
+font-family: 'Lexend Deca', sans-serif;
+
 `
 
 export default GlobalStyle

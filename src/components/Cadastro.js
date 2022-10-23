@@ -1,18 +1,45 @@
-
-import { Link } from "react-router-dom";
+import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import logo from "../img/logo.png"
+import { useState } from "react";
 
 export default function Cadastrar(){
+    const [nome, setNome] = useState("");
+    const [email, setEmail] = useState("");
+    const [imagem, setImagem] = useState("");
+    const [senha, setSenha] = useState(""); 
+    
+    const navigate = useNavigate();
+
+    function fazerCadastro(e){
+        e.preventDefault();
+
+        const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up";
+
+        const body = {
+            email: email,
+            name: nome,
+            image: imagem,
+            password: senha  
+        }
+
+        const promisse = axios.post(URL, body);
+
+        promisse.then(() => {navigate("/")});
+        
+        promisse.catch((err) => {alert(err.response.data.message)});
+    }
+
     return(
         <Main>
             <img src={logo} />
-            <Formulario>
-                <input  type="email"  placeholder="email" required/>
-                <input  type="password" placeholder="senha" required />
-                <input type="text" placeholder="nome" required />
-                <input type="url" placeholder="imagem" required/>
-                <button type="subimit">Cadastrar</button>
+            <Formulario onSubmit={fazerCadastro}>
+                <input  type="email"  placeholder="email" value={email} onChange={e => setEmail(e.target.value)} required/>
+                <input  type="password" placeholder="senha" value={senha} onChange={e => setSenha(e.target.value)} required />
+                <input type="text" placeholder="nome" value={nome} onChange={e => setNome(e.target.value)} required />
+                <input type="url" placeholder="imagem" value={imagem} onChange={e => setImagem(e.target.value)} required/>
+                <button type="subimit" >Cadastrar</button>
             </Formulario>
             <Link to="/">Já tem uma conta? Faça login!</Link>
         </Main>
@@ -23,7 +50,6 @@ const Main = styled.div`
 width: 400px;
 height: 700px;
 background-color: white;
-border: 1px solid black;
 margin: auto;
 display: flex;
 flex-direction: column;
@@ -40,7 +66,6 @@ align-items: center;
         
     }
 `
-
 const Formulario = styled.form`
 display: flex;
 flex-direction: column;
@@ -52,12 +77,14 @@ font-family: 'Lexend Deca', sans-serif;
         margin: 7px auto;
         border: 1px solid #D4D4D4;
         font-size: 20px;
-        color: #DBDBDB;
+        color: black;
         box-sizing: border-box;
         padding-left: 10px;
         display: flex;
         align-items: center;
-
+        ::placeholder{
+            color: #DBDBDB;
+        }
     }
     button{
         width: 303px;
@@ -69,4 +96,5 @@ font-family: 'Lexend Deca', sans-serif;
         border: none;
         border-radius: 5px;
     }
+    
 `
