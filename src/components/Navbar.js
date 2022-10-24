@@ -27,6 +27,7 @@ align-items: center;
 box-sizing: border-box;
 padding: 0px 18px 0px 18px;
 margin-bottom: 70px;
+z-index: 2;
     img{
         border-radius: 50%;
         height: 51px;

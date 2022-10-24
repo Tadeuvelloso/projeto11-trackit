@@ -1,13 +1,13 @@
 import styled from "styled-components";
 import lixo from "../img/lixo.png"
 import axios from "axios";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { CustomerContext } from "../contexts/customer"
 
 export default function HabitoApi ({name, days, id, semana, cont, setCont}){
     
     const { token } = useContext(CustomerContext)
-
+    const [confirma, setConfirma] = useState(false)
    
     function excluirHabito(id){
 
@@ -26,13 +26,23 @@ export default function HabitoApi ({name, days, id, semana, cont, setCont}){
 
     }
 
+    function confirmacao (){
+        setConfirma(!confirma)
+    }
+
     return(
         <CriarHabito>
-            <img src={lixo} onClick={() => excluirHabito(id)}/>
-            <p>{name}</p>
+            <img src={lixo} onClick={confirmacao}/>
+            <p>{name}</p>{confirma ?<span>Tem certeza que quer excluir esse hábito?</span>  : <></>}
+            {confirma ? 
+            <Grade>
+                <p onClick={confirmacao}>cancelar</p>
+                <button onClick={() => excluirHabito(id)}>confirmar</button>
+            </Grade> : 
             <Semana>
                 {semana.map((d, i) => <Dia letra={d} key={i} index={i} days={days}/>)}
-            </Semana>
+            </Semana>}
+            
         </CriarHabito>
     )
     
@@ -70,6 +80,11 @@ position: relative;
             cursor: pointer;
         }
     }
+    span{
+        font-size: 13px;
+        margin-left: 25px;
+        
+    }
 `
 const DiaSemana = styled.div`
 width: 30px;
@@ -88,4 +103,35 @@ const Semana = styled.div`
 display: flex;
 height: 35px;
 width: auto;
+`
+
+const Grade = styled.div`
+height: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+button{
+        background-color: #52B6FF;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        border: none;
+        font-size: 16px;
+        border-radius: 5px;
+        height: 25px;
+        width: 74px;
+        font-weight: 400;
+        margin-left: 15px;
+        :hover{
+            cursor: pointer;
+        }
+    }
+    p{
+        color: #52B6FF;
+        font-size: 17px;
+        :hover{
+            cursor: pointer;
+        }
+    }
 `

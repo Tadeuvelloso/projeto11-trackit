@@ -11,17 +11,17 @@ import dayjs from "dayjs"
 
 export default function Hoje () {
 
-    const { token } = useContext(CustomerContext)
+    const { token, bar, setBar, setFeito, percentage } = useContext(CustomerContext)
 
     const [dados, setDados] = useState([])
     const [render, setRender] = useState(false)
+    const [num, setNum] = useState(false)
 
     var customParseFormat = require('dayjs/plugin/customParseFormat')
     dayjs.extend(customParseFormat)
 
    require('dayjs/locale/pt-br')
    let today = dayjs().locale('pt-br').format('dddd, DD/MM')
-    console.log(today)
 
     useEffect(() => {
         const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today"
@@ -35,26 +35,42 @@ export default function Hoje () {
         const promisse = axios.get(URL, config)
 
         promisse.then((res) => {
-            
             setDados(res.data)
+            setBar(res.data.length)
+            
         })
 
         promisse.catch((err) => {
             console.log(err.response.data.message)
         })
+
+
     },[render])
 
-    console.log(dados)
+    if(dados.length > 0){
+        let tarefasFeitas = 0
+        dados.forEach((d) => {
+            if (d.done){
+                tarefasFeitas += 1;
+            }
+        })
+        setFeito(tarefasFeitas)
+    }
+        
+    
+        
+    
 
     return(
         <Main>
             <Navbar />
             <Dia>
                 <h1>{today}</h1>
-                <p>Nenhum hábito concluído ainda</p>
+                {percentage > 0 ? <Grenn>{percentage.toFixed(2)}% dos hábitos concluídos</Grenn>: <p>Nenhum hábito concluído ainda</p>}
+                
             </Dia>
             <HabitosList>
-                {dados.map((h) => <HabitoHoje render={render} setRender={setRender} record={h.highestSequence} atual={h.currentSequence} key={h.id} id={h.id} name={h.name} done={h.done}/>)}
+                {dados.map((h) => <HabitoHoje num={num} setNum={setNum} render={render} setRender={setRender} record={h.highestSequence} atual={h.currentSequence} key={h.id} id={h.id} name={h.name} done={h.done}/>)}
             </HabitosList>
             <Footer />
         </Main>
@@ -93,4 +109,8 @@ const HabitosList = styled.div`
 width: 100%;
 height: auto;
 flex-direction: column;
+`
+
+const Grenn = styled.div`
+color: #8FC549;
 `

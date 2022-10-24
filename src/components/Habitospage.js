@@ -93,10 +93,10 @@ export default function Habitos (){
             </AddHabito>
             {interruptor ?
             <CriarHabito>
-            <input type="text" placeholder="digite seu hábito..." value={criarHabito} onChange={e => setcriarHabito(e.target.value)} required />
-            <Semana>
-                {semana.map((d, i) => <Dia letra={d} key={i} index={i} addDia={addDia} diasHabito={diasHabito}/>)}
-            </Semana>
+                <input type="text" placeholder="digite seu hábito..." value={criarHabito} onChange={e => setcriarHabito(e.target.value)} required />
+                <Semana>
+                    {semana.map((d, i) => <Dia letra={d} key={i} index={i} addDia={addDia} diasHabito={diasHabito}/>)}
+                </Semana>
             <Botoes>
                 <p onClick={cancelar}>Cancelar</p>
                 <button onClick={enviarHabito}>Salvar</button>
@@ -129,7 +129,7 @@ width: 100%;
 overflow-y: scroll;
 height: auto;
 background-color: #E5E5E5;
-margin: 0px auto 70px;
+margin: 0px auto 120px;
 display: flex;
 flex-direction: column;
 align-items: center;
@@ -157,6 +157,7 @@ font-family: 'Lexend Deca', sans-serif;
         border: none;
         :hover{
             font-size: 33px;
+            cursor: pointer;
         }
     }
     p{

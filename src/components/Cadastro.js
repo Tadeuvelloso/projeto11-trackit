@@ -95,6 +95,7 @@ font-family: 'Lexend Deca', sans-serif;
         margin: 7px auto 15px;
         border: none;
         border-radius: 5px;
+        cursor: pointer;
     }
     
 `

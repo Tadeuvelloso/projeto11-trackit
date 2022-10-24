@@ -1,7 +1,18 @@
 import styled from "styled-components"
 import { Link } from "react-router-dom"
+import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
+import { useContext, useEffect, useState } from "react";
+import { CustomerContext } from "../contexts/customer";
 
 export default function Footer (){
+    const { feito, bar, percentage, setPercentage } = useContext(CustomerContext)
+    
+    useEffect(() => {
+        setPercentage(((feito/bar)*100))
+        
+    }, [feito])
+    console.log(percentage)
     return(
         <Main>
             <Link to="/habitos">
@@ -9,7 +20,13 @@ export default function Footer (){
             </Link>
             <Link to="/hoje">
                 <BotaoHoje>
-                    Hoje
+                <CircularProgressbar styles={buildStyles({
+                    textColor: "#fff",
+                    pathColor: "#FFFFFF",
+                    trailColor: "#52B6FF"
+                })} 
+                value={percentage} maxValue={100} text={`Hoje`} />
+                   
                 </BotaoHoje>
             </Link>
             <Link to="/historico">
@@ -59,4 +76,6 @@ justify-content: center;
 align-items: center;
 font-weight: bold;
 font-size: 22px;
+box-sizing: border-box;
+padding: 4px;
 `

@@ -5,15 +5,18 @@ import axios from "axios";
 import { useContext } from "react";
 
 
-export default function HabitoHoje ({id, name, done, record, atual, render, setRender}){
+export default function HabitoHoje ({id, name, done, record, atual, render, setRender, num, setNum}){
 
     const { token } = useContext(CustomerContext)
+    
 
     const config = {
         headers: {
             Authorization: `Bearer ${token}`
         }
     }
+
+   
 
     function checkMark (){
         
@@ -22,8 +25,7 @@ export default function HabitoHoje ({id, name, done, record, atual, render, setR
         const promisse = axios.post(URL, id, config)
 
         promisse.then((res) => {
-            setRender(!render)
-            
+            setRender(!render) 
         })
 
         promisse.catch((err) => {
@@ -37,14 +39,15 @@ export default function HabitoHoje ({id, name, done, record, atual, render, setR
         const promisse = axios.post(URL, id, config)
 
         promisse.then((res) => {
-            setRender(!render)
-            
+            setRender(!render) 
         })
 
         promisse.catch((err) => {
             alert(err.response.data.message)
         })
     }
+
+    
 
     return(
         <Main>
@@ -53,12 +56,11 @@ export default function HabitoHoje ({id, name, done, record, atual, render, setR
                 <h3>Sequência atual: <span>{atual} dias</span></h3>
                 <h4>Seu recorde: <span>{record} dias</span></h4>
             </Dados>
-            {done ? <Check done={done} onClick={unCheckMark}>
+            {done ? <Check done={done}  onClick={unCheckMark}>
                 <img src={mark} />
             </Check> : <Check done={done} onClick={checkMark}>
                 <img src={mark} />
             </Check>}
-            
         </Main>
     )
 }
@@ -86,14 +88,14 @@ color: #666666;
         font-size: 13px;
         margin: 2px 0px;
         span{
-            color:${ props => props.atual >= props.record ? "#8FC549" : "#666666"};
+            color:${ props => props.atual >= props.record && props.atual > 0 ? "#8FC549" : "#666666"};
         }
     }
     h4{
         font-size: 13px;
         margin: 2px 0px;
         span{
-            color:${ props => props.atual >= props.record ? "#8FC549" : "#666666"};
+            color:${ props => props.atual >= props.record && props.record > 0 ? "#8FC549" : "#666666"};
         }
     }
     
