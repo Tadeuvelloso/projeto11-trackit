@@ -31,7 +31,7 @@ export default function Entrar(){
             console.log(res.data)
             setToken(res.data.token)
             setImagem(res.data.image)
-            navigate("/habitos")
+            navigate("/hoje")
         });
         
         promisse.catch((err) => {alert(err.response.data.message)});

@@ -1,18 +1,64 @@
 import styled from "styled-components";
 import mark from "../img/Group.png";
+import { CustomerContext } from "../contexts/customer";
+import axios from "axios";
+import { useContext } from "react";
 
 
-export default function HabitoHoje (){
+export default function HabitoHoje ({id, name, done, record, atual, render, setRender}){
+
+    const { token } = useContext(CustomerContext)
+
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+
+    function checkMark (){
+        
+        const URL = `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}/check`
+
+        const promisse = axios.post(URL, id, config)
+
+        promisse.then((res) => {
+            setRender(!render)
+            
+        })
+
+        promisse.catch((err) => {
+            alert(err.response.data.message)
+        })
+    }
+
+    function unCheckMark (){
+        const URL = `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}/uncheck`
+        
+        const promisse = axios.post(URL, id, config)
+
+        promisse.then((res) => {
+            setRender(!render)
+            
+        })
+
+        promisse.catch((err) => {
+            alert(err.response.data.message)
+        })
+    }
+
     return(
         <Main>
-            <Dados>
-                <h3>Ler 1 capítulo de livro</h3>
-                <h4>Sequência atual: 3 dias</h4>
-                <h4>Seu recorde: 5 dias</h4>
+            <Dados record={record} atual={atual}>
+                <h2>{name}</h2>
+                <h3>Sequência atual: <span>{atual} dias</span></h3>
+                <h4>Seu recorde: <span>{record} dias</span></h4>
             </Dados>
-            <Check>
+            {done ? <Check done={done} onClick={unCheckMark}>
                 <img src={mark} />
-            </Check>
+            </Check> : <Check done={done} onClick={checkMark}>
+                <img src={mark} />
+            </Check>}
+            
         </Main>
     )
 }
@@ -31,14 +77,26 @@ padding: 0px 7px 0px 7px;
 `
 const Dados = styled.div`
 color: #666666;
-    h3{
+    h2{
         font-size: 20px;
-        margin-bottom: 10px;
+        margin-bottom: 10px;  
+    }
+
+    h3{
+        font-size: 13px;
+        margin: 2px 0px;
+        span{
+            color:${ props => props.atual >= props.record ? "#8FC549" : "#666666"};
+        }
     }
     h4{
         font-size: 13px;
         margin: 2px 0px;
+        span{
+            color:${ props => props.atual >= props.record ? "#8FC549" : "#666666"};
+        }
     }
+    
 `
 const Check = styled.div`
 width: 69px;
@@ -46,6 +104,7 @@ height: 69px;
 display: flex;
 justify-content: center;
 align-items: center;
-background-color: #EBEBEB;
+background-color: ${props => props.done ? "#8FC549" : "#EBEBEB"};
 border-radius: 4px;
+cursor: pointer;
 `

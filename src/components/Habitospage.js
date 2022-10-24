@@ -40,7 +40,6 @@ export default function Habitos (){
         })
     }, [cont])
     
-    console.log(data)
 
     function abrirCriarHabito (){
         setInterrupor(!interruptor)
