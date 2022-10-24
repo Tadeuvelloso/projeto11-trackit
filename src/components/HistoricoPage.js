@@ -9,7 +9,7 @@ export default function Historico (){
             <Navbar/>
             <h1>Histórico</h1>
             <HistoricoList>
-                habitos passados...
+            Em breve você poderá ver o histórico dos seus hábitos aqui!
             </HistoricoList>
             <Footer/>
         </Main>
@@ -31,13 +31,14 @@ background-color: #E5E5E5;
 padding: 0px 15px 0px 15px;
 font-family: 'Lexend Deca', sans-serif;
     h1{
-        margin: 85px 0px 30px;
+        margin: 85px 0px 20px;
         font-size: 23px;
         color: #126BA5;
     }
 `
 
 const HistoricoList = styled.div`
-display: flex;
-flex-direction: column;
+color: #666666;
+font-size: 18px;
+line-height: 22px;
 `
